@@ -20,12 +20,13 @@ public class VentanaJuego extends javax.swing.JFrame {
 
     static int ANCHOPANTALLA = 800;
     static int ALTOPANTALLA = 600;
-    
+
     int filasMarcianos = 5;
     int columnasMarcianos = 10;
-    
+
     BufferedImage buffer = null;
-    
+
+    int contador = 0;
     //blucle de animacion del juego
     //en este caso es un hilo de ejecucion nuevo que se encarga de refrescar 
     //el contenido de la pantalla
@@ -36,40 +37,47 @@ public class VentanaJuego extends javax.swing.JFrame {
             bucleDelJuego();
         }
     });
-           
-    Marcianos miMarciano = new Marcianos (ANCHOPANTALLA);
+
+    Marcianos miMarciano = new Marcianos(ANCHOPANTALLA);
+
     /**
      * Creates new form VentanaJuego
      */
     public VentanaJuego() {
         initComponents();
-        setSize(ANCHOPANTALLA,ALTOPANTALLA);
-        buffer = (BufferedImage) jPanel1.createImage(ANCHOPANTALLA,ALTOPANTALLA);
+        setSize(ANCHOPANTALLA, ALTOPANTALLA);
+        buffer = (BufferedImage) jPanel1.createImage(ANCHOPANTALLA, ALTOPANTALLA);
         buffer.createGraphics();
-        
+
         //arranco el temporizador para que empiece el juego
         temporizador.start();
     }
 
-    private void bucleDelJuego(){
-    //este metodo gobierna el redibujado de los objetos en el jpanel1
-    
-    //primero borro todo lo que hay en el buffer
-    Graphics2D g2 = (Graphics2D) buffer.getGraphics();
-    g2.setColor(Color.BLACK);
-    g2.fillRect(0, 0, ANCHOPANTALLA, ALTOPANTALLA);
-    
-    ////////////////////////////////////////////////
-    
-    g2.drawImage(miMarciano.imagen1, 10,10,null);
-        g2.drawImage(miMarciano.imagen2, 10,100,null);
+    private void bucleDelJuego() {
+        //este metodo gobierna el redibujado de los objetos en el jpanel1
 
-    
-    ///////////////////////////////////////////
-    //dibujo de golpe todo el buffer sobre el jpanel1
-    g2 = (Graphics2D) jPanel1.getGraphics();
-    g2.drawImage(buffer, 0, 0, null);
+        //primero borro todo lo que hay en el buffer
+        Graphics2D g2 = (Graphics2D) buffer.getGraphics();
+        g2.setColor(Color.BLACK);
+        g2.fillRect(0, 0, ANCHOPANTALLA, ALTOPANTALLA);
+
+        contador++;
+        ////////////////////////////////////////////////
+        if (contador < 50) {
+            g2.drawImage(miMarciano.imagen1, 10, 10, null);
+
+        } else if (contador < 100) {
+            g2.drawImage(miMarciano.imagen2, 10, 10, null);
+        } else {
+            contador = 0;
+        }
+
+        ///////////////////////////////////////////
+        //dibujo de golpe todo el buffer sobre el jpanel1
+        g2 = (Graphics2D) jPanel1.getGraphics();
+        g2.drawImage(buffer, 0, 0, null);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
