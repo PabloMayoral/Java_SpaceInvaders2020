@@ -37,7 +37,7 @@ public class VentanaJuego extends javax.swing.JFrame {
         }
     });
            
-    
+    Marcianos miMarciano = new Marcianos (ANCHOPANTALLA);
     /**
      * Creates new form VentanaJuego
      */
@@ -61,6 +61,9 @@ public class VentanaJuego extends javax.swing.JFrame {
     
     ////////////////////////////////////////////////
     
+    g2.drawImage(miMarciano.imagen1, 10,10,null);
+        g2.drawImage(miMarciano.imagen2, 10,100,null);
+
     
     ///////////////////////////////////////////
     //dibujo de golpe todo el buffer sobre el jpanel1
