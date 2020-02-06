@@ -78,6 +78,9 @@ public class VentanaJuego extends javax.swing.JFrame {
         }
              //dibujo la nave
         g2.drawImage(miNave.imagen, miNave.posX, miNave.posY, null);
+        
+        
+        
         //////////////////////////////////////////////////
         //dibujo de golpe todo el buffer sobre el jpanel1
         g2 = (Graphics2D) jPanel1.getGraphics();
