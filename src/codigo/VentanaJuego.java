@@ -41,6 +41,7 @@ public class VentanaJuego extends javax.swing.JFrame {
 
     Marcianos miMarciano = new Marcianos(ANCHOPANTALLA);
     Nave miNave = new Nave();
+    Disparo miDisparo = new Disparo();
 
     /**
      * Creates new form VentanaJuego
@@ -79,8 +80,9 @@ public class VentanaJuego extends javax.swing.JFrame {
         }
         //dibujo la nave
         g2.drawImage(miNave.imagen, miNave.posX, miNave.posY, null);
+        g2.drawImage(miDisparo.imagen, miDisparo.posX, miDisparo.posY, null);
         miNave.mueve();
-
+        miDisparo.mueve();
         //////////////////////////////////////////////////
         //dibujo de golpe todo el buffer sobre el jpanel1
         g2 = (Graphics2D) jPanel1.getGraphics();
@@ -135,15 +137,27 @@ public class VentanaJuego extends javax.swing.JFrame {
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         switch (evt.getKeyCode()) {
-            case KeyEvent.VK_LEFT: miNave.setPulsadoIzq(true); break;
-            case KeyEvent.VK_RIGHT: miNave.setPulsadoDcha(true);  break;
+            case KeyEvent.VK_LEFT:
+                miNave.setPulsadoIzq(true);
+                break;
+            case KeyEvent.VK_RIGHT:
+                miNave.setPulsadoDcha(true);
+                break;
+            case KeyEvent.VK_SPACE:
+                miDisparo.posicionDisparo(miNave); 
+                miDisparo.posicionDisparo(miNave);
+                break;
         }
     }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-       switch (evt.getKeyCode()) {
-            case KeyEvent.VK_LEFT: miNave.setPulsadoIzq(false); break;
-            case KeyEvent.VK_RIGHT: miNave.setPulsadoDcha(false);  break;
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+                miNave.setPulsadoIzq(false);
+                break;
+            case KeyEvent.VK_RIGHT:
+                miNave.setPulsadoDcha(false);
+                break;
         }
     }//GEN-LAST:event_formKeyReleased
 
