@@ -39,4 +39,22 @@ public class Nave {
             posX++;
         }
     }
+
+    public boolean isPulsadoIzq() {
+        return pulsadoIzq;
+    }
+
+    public void setPulsadoIzq(boolean pulsadoIzq) {
+        this.pulsadoIzq = pulsadoIzq;
+        this.pulsadoDcha = false;
+    }
+
+    public boolean isPulsadoDcha() {
+        return pulsadoDcha;
+    }
+
+    public void setPulsadoDcha(boolean pulsadoDcha) {
+        this.pulsadoDcha = pulsadoDcha;
+        this.pulsadoIzq = false;
+    }
 }

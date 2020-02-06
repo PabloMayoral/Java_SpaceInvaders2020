@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.Timer;
 
@@ -76,11 +77,10 @@ public class VentanaJuego extends javax.swing.JFrame {
         } else {
             contador = 0;
         }
-             //dibujo la nave
+        //dibujo la nave
         g2.drawImage(miNave.imagen, miNave.posX, miNave.posY, null);
-        
-        
-        
+        miNave.mueve();
+
         //////////////////////////////////////////////////
         //dibujo de golpe todo el buffer sobre el jpanel1
         g2 = (Graphics2D) jPanel1.getGraphics();
@@ -99,6 +99,14 @@ public class VentanaJuego extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -124,6 +132,20 @@ public class VentanaJuego extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_LEFT: miNave.setPulsadoIzq(true); break;
+            case KeyEvent.VK_RIGHT: miNave.setPulsadoDcha(true);  break;
+        }
+    }//GEN-LAST:event_formKeyPressed
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+       switch (evt.getKeyCode()) {
+            case KeyEvent.VK_LEFT: miNave.setPulsadoIzq(false); break;
+            case KeyEvent.VK_RIGHT: miNave.setPulsadoDcha(false);  break;
+        }
+    }//GEN-LAST:event_formKeyReleased
 
     /**
      * @param args the command line arguments
