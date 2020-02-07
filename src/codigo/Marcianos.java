@@ -17,6 +17,8 @@ public class Marcianos {
 
     public Image imagen1 = null;
     public Image imagen2 = null;
+    public int posX = 0;
+    public int posY = 0;
 
     private int ANCHOPANTALLA;
     public int vida = 50;
@@ -34,4 +36,12 @@ public class Marcianos {
         }
     }
 
+    public void mueve(boolean direccion) {
+        if (direccion) {
+            posX++;
+        } else {
+            posX--;
+        }
+
+    }
 }
