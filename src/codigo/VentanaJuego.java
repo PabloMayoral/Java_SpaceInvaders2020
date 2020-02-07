@@ -44,7 +44,7 @@ public class VentanaJuego extends javax.swing.JFrame {
     Nave miNave = new Nave();
     Disparo miDisparo = new Disparo();
     Marcianos[][] listaMarcianos = new Marcianos[filasMarcianos][columnasMarcianos];
-    boolean direccionMarciano = false;
+    boolean direccionMarciano = true;
 
     /**
      * Creates new form VentanaJuego

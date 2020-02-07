@@ -38,9 +38,9 @@ public class Marcianos {
 
     public void mueve(boolean direccion) {
         if (direccion) {
-            posX++;
-        } else {
             posX--;
+        } else {
+            posX++;
         }
 
     }
