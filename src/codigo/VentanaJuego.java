@@ -63,27 +63,31 @@ public class VentanaJuego extends javax.swing.JFrame {
 
         }
         //cargo las 30 imagenes del spritesheet en el array del BufferedImage
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
-                imagenes[i*5 + j] = plantilla.getSubimage(j*32, j*32, 64, 64)
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 4; j++) {
+                imagenes[i*4 + j] = plantilla.getSubimage(j*64, j*64, 64, 64)
                         .getScaledInstance(32, 32, Image.SCALE_SMOOTH);
                 
             }
 
         }
+        imagenes[20]=plantilla.getSubimage(0, 320, 66, 32);//sprite de la nave
+                imagenes[21]=plantilla.getSubimage(66, 320, 64, 32);
+
         setSize(ANCHOPANTALLA, ALTOPANTALLA);
         buffer = (BufferedImage) jPanel1.createImage(ANCHOPANTALLA, ALTOPANTALLA);
         buffer.createGraphics();
 
         //arranco el temporizador para que empiece el juego
         temporizador.start();
+        miNave.imagen=imagenes[21];
         miNave.posX = ANCHOPANTALLA / 2 - miNave.imagen.getWidth(this) / 2;
         miNave.posY = ALTOPANTALLA - 100;
         for (int i = 0; i < filasMarcianos; i++) {
             for (int j = 0; j < columnasMarcianos; j++) {
                 listaMarcianos[i][j] = new Marcianos(ANCHOPANTALLA);
-               listaMarcianos[i][j].imagen1 = imagenes[4];
-                listaMarcianos[i][j].imagen2 = imagenes[2];
+               listaMarcianos[i][j].imagen1 = imagenes[2*i];
+                listaMarcianos[i][j].imagen2 = imagenes[2*i + 1];
 
                 listaMarcianos[i][j].posX = j * (15 + listaMarcianos[i][j].imagen1.getWidth(null));
                 listaMarcianos[i][j].posY = i * (10 + listaMarcianos[i][j].imagen1.getHeight(null));
