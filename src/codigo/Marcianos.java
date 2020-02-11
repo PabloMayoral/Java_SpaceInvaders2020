@@ -26,14 +26,7 @@ public class Marcianos {
     public Marcianos(int _ANCHOPANTALLA) {
 
         ANCHOPANTALLA = _ANCHOPANTALLA;
-        try {//siempre que hace la lectura con algo que hay en el disco, se ejecuta un try
-            //catch,esto hace que proteja lo que se encuentra en el disco.
-            imagen1 = ImageIO.read(getClass().getResource("/imagenes/marcianito1.png"));
-            imagen2 = ImageIO.read(getClass().getResource("/imagenes/marcianito2.png"));
-//En caso de no poner IO se transforma en una exception generico con errores gerenicos
-        } catch (Exception e) {
-
-        }
+       
     }
 
     public void mueve(boolean direccion) {
