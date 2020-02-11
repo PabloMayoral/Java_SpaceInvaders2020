@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import javax.swing.Timer;
 
@@ -117,6 +118,20 @@ public class VentanaJuego extends javax.swing.JFrame {
         //dibujo de golpe todo el buffer sobre el jpanel1
         g2 = (Graphics2D) jPanel1.getGraphics();
         g2.drawImage(buffer, 0, 0, null);
+    }
+    //cheque si un disparo y un marciano colisiona
+
+    private void chequeaColision() {
+        Rectangle2D.Double rectanguloMarciano = new Rectangle2D.Double();
+        Rectangle2D.Double rectanguloDisparo = new Rectangle2D.Double();
+        //calculo el rectangulo que contiene al disparo
+        rectanguloDisparo.setFrame(miDisparo.posX, miDisparo.posY, miDisparo.imagen.getWidth(null), miDisparo.imagen.getHeight(null));
+
+        for (int i = 0; i < filasMarcianos; i++) {
+            for (int j = 0; j < columnasMarcianos; j++) {
+               rectanguloMarciano.setFrame(listaMarcianos[i][j].posX,listaMarcianos[i][j].posY,listaMarcianos[i][j].imagen1.getWidth(null),listaMarcianos[i][j].imagen1.getHeight(null));
+            }
+        }
     }
 
     /**
