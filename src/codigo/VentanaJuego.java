@@ -61,49 +61,51 @@ public class VentanaJuego extends javax.swing.JFrame {
     /**
      * Creates new form VentanaJuego
      */
-    public VentanaJuego() {
+     public VentanaJuego() {
+
         initComponents();
+
         try {
             plantilla = ImageIO.read(getClass().getResource("/imagenes/invaders2.png"));
         } catch (IOException ex) {
-
         }
-        //cargo las 30 imagenes del spritesheet en el array del BufferedImage
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 4; j++) {
-                imagenes[i * 4 + j] = plantilla.getSubimage(j * 64, j * 64, 64, 64)
+        //cargo las 30 imágenes del spritesheet en el array de bufferedimages
+        for (int i=0; i< 5; i++){
+            for (int j=0; j<4; j++){
+                imagenes[i*4 + j] = plantilla
+                        .getSubimage(j*64, i*64, 64, 64)
                         .getScaledInstance(32, 32, Image.SCALE_SMOOTH);
-
+                
             }
-
         }
-        imagenes[20] = plantilla.getSubimage(0, 320, 66, 32);//sprite de la nave
+        imagenes[20] = plantilla.getSubimage(0, 320, 66, 32); //sprite de la nave
         imagenes[21] = plantilla.getSubimage(66, 320, 64, 32);
-        imagenes[22] = plantilla.getSubimage(130, 320, 64, 32);//explosion parte B
-        imagenes[23] = plantilla.getSubimage(194, 320, 64, 32);//explosion parte A
-
+        imagenes[23] = plantilla.getSubimage(255, 320, 32, 32);//explosion parteB
+        imagenes[22] = plantilla.getSubimage(255, 289, 32, 32);//explosion parteA
+        
+                
         setSize(ANCHOPANTALLA, ALTOPANTALLA);
-        buffer = (BufferedImage) jPanel1.createImage(ANCHOPANTALLA, ALTOPANTALLA);
+        jPanel1.setSize(ANCHOPANTALLA, ALTOPANTALLA);
+        buffer = (BufferedImage) jPanel1.createImage(ANCHOPANTALLA, ALTOPANTALLA);//inicializo el buffer
         buffer.createGraphics();
 
-        //arranco el temporizador para que empiece el juego
-        temporizador.start();
+        temporizador.start();//arranco el temporizador
         miNave.imagen = imagenes[21];
         miNave.posX = ANCHOPANTALLA / 2 - miNave.imagen.getWidth(this) / 2;
         miNave.posY = ALTOPANTALLA - 100;
+        //creamos el array de marcianos
         for (int i = 0; i < filasMarcianos; i++) {
             for (int j = 0; j < columnasMarcianos; j++) {
                 listaMarcianos[i][j] = new Marcianos(ANCHOPANTALLA);
-                listaMarcianos[i][j].imagen1 = imagenes[2 * i];
-                listaMarcianos[i][j].imagen2 = imagenes[2 * i + 1];
-
+                listaMarcianos[i][j].imagen1 = imagenes[2*i];
+                listaMarcianos[i][j].imagen2 = imagenes[2*i+1];
                 listaMarcianos[i][j].posX = j * (15 + listaMarcianos[i][j].imagen1.getWidth(null));
                 listaMarcianos[i][j].posY = i * (10 + listaMarcianos[i][j].imagen1.getHeight(null));
-
             }
         }
         miDisparo.posY = -2000;
     }
+
 
     private void pintaMarcianos(Graphics2D _g2) {
         for (int i = 0; i < filasMarcianos; i++) {
@@ -160,8 +162,8 @@ public class VentanaJuego extends javax.swing.JFrame {
 
             }
             //si el tiempo de vida de la explosion es menor o igual a cero la elimino
-            if (explosionAux.tiempoDeVida <= 0) {
-                listaExplosiones.remove(i);
+            if(explosionAux.tiempoDeVida <=0){
+            listaExplosiones.remove(i);
             }
         }
 
@@ -182,7 +184,7 @@ public class VentanaJuego extends javax.swing.JFrame {
         //dibujo la nave
         g2.drawImage(miNave.imagen, miNave.posX, miNave.posY, null);
         pintaDisparos(g2);
-        pintaExplosiones(g2);
+         pintaExplosiones(g2);
         miNave.mueve();
         chequeaColision();
         //////////////////////////////////////////////////
@@ -192,33 +194,42 @@ public class VentanaJuego extends javax.swing.JFrame {
     }
     //cheque si un disparo y un marciano colisiona
 
-    private void chequeaColision() {
+      private void chequeaColision(){
         Rectangle2D.Double rectanguloMarciano = new Rectangle2D.Double();
         Rectangle2D.Double rectanguloDisparo = new Rectangle2D.Double();
+        
         for (int k = 0; k < listaDisparos.size(); k++) {
-
-            //calculo el rectangulo que contiene al disparo
-            rectanguloDisparo.setFrame(listaDisparos.get(k).posX, listaDisparos.get(k).posY, listaDisparos.get(k).imagen.getWidth(null), listaDisparos.get(k).imagen.getHeight(null));
+            //calculo el rectangulo que contiene al disparo correspondiente
+            rectanguloDisparo.setFrame(listaDisparos.get(k).posX,
+                    listaDisparos.get(k).posY,
+                    listaDisparos.get(k).imagen.getWidth(null),
+                    listaDisparos.get(k).imagen.getHeight(null));
 
             for (int i = 0; i < filasMarcianos; i++) {
                 for (int j = 0; j < columnasMarcianos; j++) {
-                    rectanguloMarciano.setFrame(listaMarcianos[i][j].posX, listaMarcianos[i][j].posY, listaMarcianos[i][j].imagen1.getWidth(null), listaMarcianos[i][j].imagen1.getHeight(null));
+                    //calculo el rectángulo corresponmdiente al marciano que estoy comprobando
+                    rectanguloMarciano.setFrame(listaMarcianos[i][j].posX,
+                            listaMarcianos[i][j].posY,
+                            listaMarcianos[i][j].imagen1.getWidth(null),
+                            listaMarcianos[i][j].imagen1.getHeight(null)
+                    );
                     if (rectanguloDisparo.intersects(rectanguloMarciano)) {
-                        //si entra aqui es porque han chocado un marciano y el disparo
+                        //si entra aquí es porque han chocado un marciano y el disparo
                         Explosion e = new Explosion();
                         e.posX = listaMarcianos[i][j].posX;
                         e.posY = listaMarcianos[i][j].posY;
                         e.imagen1 = imagenes[23];
                         e.imagen2 = imagenes[22];
                         listaExplosiones.add(e);
+                        
                         listaMarcianos[i][j].posY = 2000;
                         listaDisparos.remove(k);
                     }
                 }
             }
         }
+        
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
