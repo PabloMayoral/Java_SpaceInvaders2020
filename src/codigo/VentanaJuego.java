@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.Timer;
 
@@ -49,6 +50,9 @@ public class VentanaJuego extends javax.swing.JFrame {
     Marcianos miMarciano = new Marcianos(ANCHOPANTALLA);
     Nave miNave = new Nave();
     Disparo miDisparo = new Disparo();
+
+    ArrayList<Disparo> listaDisparos = new ArrayList();
+
     Marcianos[][] listaMarcianos = new Marcianos[filasMarcianos][columnasMarcianos];
     boolean direccionMarciano = true;
 
@@ -65,14 +69,14 @@ public class VentanaJuego extends javax.swing.JFrame {
         //cargo las 30 imagenes del spritesheet en el array del BufferedImage
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 4; j++) {
-                imagenes[i*4 + j] = plantilla.getSubimage(j*64, j*64, 64, 64)
+                imagenes[i * 4 + j] = plantilla.getSubimage(j * 64, j * 64, 64, 64)
                         .getScaledInstance(32, 32, Image.SCALE_SMOOTH);
-                
+
             }
 
         }
-        imagenes[20]=plantilla.getSubimage(0, 320, 66, 32);//sprite de la nave
-                imagenes[21]=plantilla.getSubimage(66, 320, 64, 32);
+        imagenes[20] = plantilla.getSubimage(0, 320, 66, 32);//sprite de la nave
+        imagenes[21] = plantilla.getSubimage(66, 320, 64, 32);
 
         setSize(ANCHOPANTALLA, ALTOPANTALLA);
         buffer = (BufferedImage) jPanel1.createImage(ANCHOPANTALLA, ALTOPANTALLA);
@@ -80,14 +84,14 @@ public class VentanaJuego extends javax.swing.JFrame {
 
         //arranco el temporizador para que empiece el juego
         temporizador.start();
-        miNave.imagen=imagenes[21];
+        miNave.imagen = imagenes[21];
         miNave.posX = ANCHOPANTALLA / 2 - miNave.imagen.getWidth(this) / 2;
         miNave.posY = ALTOPANTALLA - 100;
         for (int i = 0; i < filasMarcianos; i++) {
             for (int j = 0; j < columnasMarcianos; j++) {
                 listaMarcianos[i][j] = new Marcianos(ANCHOPANTALLA);
-               listaMarcianos[i][j].imagen1 = imagenes[2*i];
-                listaMarcianos[i][j].imagen2 = imagenes[2*i + 1];
+                listaMarcianos[i][j].imagen1 = imagenes[2 * i];
+                listaMarcianos[i][j].imagen2 = imagenes[2 * i + 1];
 
                 listaMarcianos[i][j].posX = j * (15 + listaMarcianos[i][j].imagen1.getWidth(null));
                 listaMarcianos[i][j].posY = i * (10 + listaMarcianos[i][j].imagen1.getHeight(null));
@@ -124,6 +128,21 @@ public class VentanaJuego extends javax.swing.JFrame {
         }
     }
 
+    private void pintaDisparos(Graphics2D g2) {
+        //pinta todos los disparos
+        Disparo disparoAux;
+        for (int i = 0; i < listaDisparos.size(); i++) {
+            disparoAux = listaDisparos.get(i);
+            disparoAux.mueve();
+            if (disparoAux.posY < 0) {
+                listaDisparos.remove(i);
+            } else {
+                g2.drawImage(disparoAux.imagen, disparoAux.posX, disparoAux.posY, null);
+            }
+        }
+
+    }
+
     private void bucleDelJuego() {
         //este metodo gobierna el redibujado de los objetos en el jpanel1
 
@@ -138,9 +157,8 @@ public class VentanaJuego extends javax.swing.JFrame {
 
         //dibujo la nave
         g2.drawImage(miNave.imagen, miNave.posX, miNave.posY, null);
-        g2.drawImage(miDisparo.imagen, miDisparo.posX, miDisparo.posY, null);
+        pintaDisparos(g2);
         miNave.mueve();
-        miDisparo.mueve();
         chequeaColision();
         //////////////////////////////////////////////////
         //dibujo de golpe todo el buffer sobre el jpanel1
@@ -152,17 +170,19 @@ public class VentanaJuego extends javax.swing.JFrame {
     private void chequeaColision() {
         Rectangle2D.Double rectanguloMarciano = new Rectangle2D.Double();
         Rectangle2D.Double rectanguloDisparo = new Rectangle2D.Double();
-        //calculo el rectangulo que contiene al disparo
-        rectanguloDisparo.setFrame(miDisparo.posX, miDisparo.posY, miDisparo.imagen.getWidth(null), miDisparo.imagen.getHeight(null));
+        for (int k = 0; k < listaDisparos.size(); k++) {
 
-        for (int i = 0; i < filasMarcianos; i++) {
-            for (int j = 0; j < columnasMarcianos; j++) {
-                rectanguloMarciano.setFrame(listaMarcianos[i][j].posX, listaMarcianos[i][j].posY, listaMarcianos[i][j].imagen1.getWidth(null), listaMarcianos[i][j].imagen1.getHeight(null));
-                if (rectanguloDisparo.intersects(rectanguloMarciano)) {
-                    //si entra aqui es porque han chocado un marciano y el disparo
-                    listaMarcianos[i][j].posY = 2000;
-                    miDisparo.posY = 2000;
+            //calculo el rectangulo que contiene al disparo
+            rectanguloDisparo.setFrame(listaDisparos.get(k).posX, listaDisparos.get(k).posY, listaDisparos.get(k).imagen.getWidth(null), listaDisparos.get(k).imagen.getHeight(null));
 
+            for (int i = 0; i < filasMarcianos; i++) {
+                for (int j = 0; j < columnasMarcianos; j++) {
+                    rectanguloMarciano.setFrame(listaMarcianos[i][j].posX, listaMarcianos[i][j].posY, listaMarcianos[i][j].imagen1.getWidth(null), listaMarcianos[i][j].imagen1.getHeight(null));
+                    if (rectanguloDisparo.intersects(rectanguloMarciano)) {
+                        //si entra aqui es porque han chocado un marciano y el disparo
+                        listaMarcianos[i][j].posY = 2000;
+                        listaDisparos.remove(k);
+                    }
                 }
             }
         }
@@ -223,8 +243,10 @@ public class VentanaJuego extends javax.swing.JFrame {
                 miNave.setPulsadoDcha(true);
                 break;
             case KeyEvent.VK_SPACE:
-                miDisparo.posicionDisparo(miNave);
-                miDisparo.posicionDisparo(miNave);
+                Disparo d = new Disparo();
+                d.posicionDisparo(miNave);
+                //agregamos el disparo a la lista de disparos
+                listaDisparos.add(d);
                 break;
         }
     }//GEN-LAST:event_formKeyPressed
