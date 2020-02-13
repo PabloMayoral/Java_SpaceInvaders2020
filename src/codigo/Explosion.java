@@ -6,7 +6,11 @@
 package codigo;
 
 import java.awt.Image;
+import java.io.IOException;
+import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  *
@@ -24,5 +28,12 @@ public class Explosion {
     
     Clip sonidoExplosion;
     
-
+    public Explosion(){
+        try {
+            sonidoExplosion = AudioSystem.getClip();
+            sonidoExplosion.open(AudioSystem.getAudioInputStream(getClass().getResource("/sonidos/explosion.wav")));
+        } catch (Exception ex) {
+        }
+    
+    }
 }

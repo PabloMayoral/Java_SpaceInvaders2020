@@ -222,6 +222,8 @@ public class VentanaJuego extends javax.swing.JFrame {
                         e.imagen2 = imagenes[22];
                         listaExplosiones.add(e);
                         
+                        e.sonidoExplosion.start();//suena el sonido
+                        
                         listaMarcianos[i][j].posY = 2000;
                         listaDisparos.remove(k);
                     }
