@@ -16,6 +16,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 /**
@@ -33,8 +36,10 @@ public class VentanaJuego extends javax.swing.JFrame {
     BufferedImage buffer = null;
     //buffer para guardar las imagenes
     BufferedImage plantilla = null;
+    BufferedImage fondo = null;
     Image[] imagenes = new Image[30];
     int contador = 0;
+     Clip sonidoFondo;
     //blucle de animacion del juego
     //en este caso es un hilo de ejecucion nuevo que se encarga de refrescar 
     //el contenido de la pantalla
@@ -88,7 +93,6 @@ public class VentanaJuego extends javax.swing.JFrame {
         jPanel1.setSize(ANCHOPANTALLA, ALTOPANTALLA);
         buffer = (BufferedImage) jPanel1.createImage(ANCHOPANTALLA, ALTOPANTALLA);//inicializo el buffer
         buffer.createGraphics();
-
         temporizador.start();//arranco el temporizador
         miNave.imagen = imagenes[21];
         miNave.posX = ANCHOPANTALLA / 2 - miNave.imagen.getWidth(this) / 2;
@@ -106,7 +110,17 @@ public class VentanaJuego extends javax.swing.JFrame {
         miDisparo.posY = -2000;
     }
 
+ public void sonidoFondo() {
+        try {//siempre que hace la lectura con algo que hay en el disco, se ejecuta un try
+            //catch,esto hace que proteja lo que se encuentra en el disco.
 
+            sonidoFondo = AudioSystem.getClip();
+            sonidoFondo.open(AudioSystem.getAudioInputStream(getClass().getResource("/sonidos/467497__enviromaniac2__pokemon-route-201-cheesy-mix (1).wav")));
+//En caso de no poner IO se transforma en una exception generico con errores gerenicos
+        } catch (Exception e) {
+            System.out.println("Hoal");
+        }
+    }
     private void pintaMarcianos(Graphics2D _g2) {
         for (int i = 0; i < filasMarcianos; i++) {
             for (int j = 0; j < columnasMarcianos; j++) {
@@ -257,7 +271,7 @@ public class VentanaJuego extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 441, Short.MAX_VALUE)
+            .addGap(0, 848, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -291,6 +305,7 @@ public class VentanaJuego extends javax.swing.JFrame {
                 d.posicionDisparo(miNave);
                 //agregamos el disparo a la lista de disparos
                 listaDisparos.add(d);
+                d.sonidoDisparo.start();
                 break;
         }
     }//GEN-LAST:event_formKeyPressed

@@ -31,7 +31,7 @@ public class Explosion {
     public Explosion(){
         try {
             sonidoExplosion = AudioSystem.getClip();
-            sonidoExplosion.open(AudioSystem.getAudioInputStream(getClass().getResource("/sonidos/explosion.wav")));
+            sonidoExplosion.open(AudioSystem.getAudioInputStream(getClass().getResource("/sonidos/146412__mbaer-studios__wookie.wav")));
         } catch (Exception ex) {
         }
     

@@ -26,7 +26,7 @@ Clip sonidoDisparo;
             //catch,esto hace que proteja lo que se encuentra en el disco.
             imagen = ImageIO.read(getClass().getResource("/imagenes/disparo.png"));
              sonidoDisparo = AudioSystem.getClip();
-            sonidoDisparo.open(AudioSystem.getAudioInputStream(getClass().getResource("/sonidos/laser.wav")));
+            sonidoDisparo.open(AudioSystem.getAudioInputStream(getClass().getResource("/sonidos/466867__mikee63__blaster-shot-single-5.wav")));
 //En caso de no poner IO se transforma en una exception generico con errores gerenicos
         } catch (Exception e) {
 
@@ -41,4 +41,5 @@ Clip sonidoDisparo;
         posX = _nave.posX + _nave.imagen.getWidth(null) / 2 - imagen.getWidth(null) / 2;
         posY = _nave.posY - _nave.imagen.getHeight(null) / 2;
     }
+    
 }
