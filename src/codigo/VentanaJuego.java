@@ -83,13 +83,7 @@ public class VentanaJuego extends javax.swing.JFrame {
     public VentanaJuego() {
 
         initComponents();
-        try {
-            fondito = ImageIO.read(getClass().getResource("/imagenes/fondoSpace.jpg"));
-
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            System.out.println("hay un error wacho");
-        }
+       
         try {
             fuenteChula = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("Tortilla.ttf"));//añadimos una fuente importada
         } catch (Exception e) {
