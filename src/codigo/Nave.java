@@ -21,8 +21,9 @@ public class Nave {
     private boolean pulsadoIzq = false;
     private boolean pulsadoDcha = false;
 
+ 
     public Nave() {
-      
+    
     }
 
     public void mueve() {

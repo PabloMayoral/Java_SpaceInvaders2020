@@ -20,6 +20,7 @@ public class Marcianos {
     public int posX = 0;
     public int posY = 0;
 
+    int velocidad =1;
     private int ANCHOPANTALLA;
     public int vida = 50;
 
@@ -31,9 +32,9 @@ public class Marcianos {
 
     public void mueve(boolean direccion) {
         if (direccion) {
-            posX--;
-        } else {
             posX++;
+        } else {
+            posX-=velocidad;
         }
 
     }
